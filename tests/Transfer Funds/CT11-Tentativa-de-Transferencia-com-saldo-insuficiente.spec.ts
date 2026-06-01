@@ -53,7 +53,9 @@ test.beforeEach("Realizar login", async ({ page }) => {
 
 // Cenário de Teste Isolado
 test("CT11 – Tentativa de Transferência com saldo insuficiente", async ({ page }) => {
-    console.log(`Executando CT11 para o usuário: ${nomeUsuario}`);
+   console.log(`Executando CT16 para o usuário: ${nomeUsuario}`);
+    console.log(`Usuário: ${usuario}`);
+    console.log(`senha: ${senha}`);
 
     // --- PRÉ-REQUISITO: Abrir uma nova conta para ter um destino válido ---
     await page.getByRole("link", { name: "Open New Account" }).click();

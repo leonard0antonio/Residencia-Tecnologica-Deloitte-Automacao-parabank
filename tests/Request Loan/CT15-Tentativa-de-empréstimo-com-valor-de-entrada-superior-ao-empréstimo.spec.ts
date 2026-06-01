@@ -50,7 +50,9 @@ test.beforeEach("Realizar login", async ({ page }) => {
 });
 
 test("CT15 - Tentativa de empréstimo com valor de entrada superior ao empréstimo", async ({ page }) => {
-    console.log(`Executando CT15 para o usuário: ${nomeUsuario}`);
+    console.log(`Executando CT16 para o usuário: ${nomeUsuario}`);
+    console.log(`Usuário: ${usuario}`);
+    console.log(`senha: ${senha}`);
 
     // 1. Given que o usuário esteja na funcionalidade "Apply for a Loan"
     await page.getByRole("link", { name: "Request Loan" }).click();
