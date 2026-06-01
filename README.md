@@ -6,7 +6,7 @@
 ![GitHub open issues](https://img.shields.io/github/issues/leonard0antonio/Residencia-Tecnologica-Deloitte-Automacao-parabank?style=for-the-badge)
 ![GitHub open pull requests](https://img.shields.io/github/issues-pr/leonard0antonio/Residencia-Tecnologica-Deloitte-Automacao-parabank?style=for-the-badge)
 
-![Demo da aplicação](demo.gif)
+![Demo da aplicação](demo.png)
 
 > Projeto de Automação de Testes End-to-End (E2E) para o sistema Parabank. Desenvolvido utilizando Playwright, TypeScript e Faker.js como parte das atividades da Residência Tecnológica da Deloitte.
 
