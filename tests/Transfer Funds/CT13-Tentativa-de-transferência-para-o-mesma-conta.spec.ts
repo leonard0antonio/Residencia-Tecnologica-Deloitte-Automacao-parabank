@@ -53,7 +53,7 @@ test.beforeEach("Realizar login", async ({ page }) => {
 
 // Cenário de Teste Isolado
 test("CT13 - Tentativa de transferência para a mesma conta", async ({ page }) => {
-    console.log(`Executando CT16 para o usuário: ${nomeUsuario}`);
+    console.log(`Executando CT13 para o usuário: ${nomeUsuario}`);
     console.log(`Usuário: ${usuario}`);
     console.log(`senha: ${senha}`);
 

@@ -50,7 +50,7 @@ test.beforeEach("Realizar login", async ({ page }) => {
 });
 
 test("CT17 - Tentativa de empréstimo com valores negativos ou inválidos", async ({ page }) => {
-    console.log(`Executando CT16 para o usuário: ${nomeUsuario}`);
+    console.log(`Executando CT17 para o usuário: ${nomeUsuario}`);
     console.log(`Usuário: ${usuario}`);
     console.log(`senha: ${senha}`);
 

@@ -50,7 +50,7 @@ test.beforeEach("Realizar login", async ({ page }) => {
 });
 
 test("CT19 - Realizar busca de transação por Data", async ({ page }) => {
-    console.log(`Executando CT16 para o usuário: ${nomeUsuario}`);
+    console.log(`Executando CT19 para o usuário: ${nomeUsuario}`);
     console.log(`Usuário: ${usuario}`);
     console.log(`senha: ${senha}`);
 

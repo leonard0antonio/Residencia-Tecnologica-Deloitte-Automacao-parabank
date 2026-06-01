@@ -53,7 +53,7 @@ test.beforeEach("Realizar login", async ({ page }) => {
 
 // Cenário de Teste Isolado
 test("CT11 – Tentativa de Transferência com saldo insuficiente", async ({ page }) => {
-   console.log(`Executando CT16 para o usuário: ${nomeUsuario}`);
+   console.log(`Executando CT11 para o usuário: ${nomeUsuario}`);
     console.log(`Usuário: ${usuario}`);
     console.log(`senha: ${senha}`);
 
