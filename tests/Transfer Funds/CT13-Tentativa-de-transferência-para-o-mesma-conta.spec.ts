@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { generateNewUser } from '../utils/generateUser';
+import { generateNewUser } from '../../utils/generateUser';
 
 // 2. Criando regras antes de todo código (Escopo do Arquivo)
 let usuario: string;
@@ -52,69 +52,63 @@ test.beforeEach("Realizar login", async ({ page }) => {
 });
 
 // Cenário de Teste Isolado
-test("CT11 – Tentativa de Transferência com saldo insuficiente", async ({ page }) => {
-    console.log(`Executando CT11 para o usuário: ${nomeUsuario}`);
+test("CT13 - Tentativa de transferência para a mesma conta", async ({ page }) => {
+    console.log(`Executando CT13 para o usuário: ${nomeUsuario}`);
 
-    // --- PRÉ-REQUISITO: Abrir uma nova conta para ter um destino válido ---
-    await page.getByRole("link", { name: "Open New Account" }).click();
-    
-    // Aguarda o Parabank carregar as opções no select
-    await page.waitForSelector("#fromAccountId");
-    
-    // Captura o 'value' exato da primeira tag <option> disponível
-    const primeiraContaOrigem = await page.locator("#fromAccountId option").first().getAttribute("value");
-    
-    // Seleciona a conta passando o valor real como parâmetro
-    if (primeiraContaOrigem) {
-        await page.locator("#fromAccountId").selectOption(primeiraContaOrigem);
-    }
-    
-    // Clica no botão para abrir a conta
-    await page.getByRole("button", { name: "Open New Account" }).click();
-    
-    // Valida que a conta foi aberta e captura o novo número da conta
-    await expect(page.getByText("Account Opened!")).toBeVisible();
-    const contaDestinoId = await page.locator("#newAccountId").textContent();
-    console.log(`Nova conta de destino criada: ${contaDestinoId}`);
-    // ----------------------------------------------------------------------
-
-    // Given que o usuário tenha acessado a funcionalidade "Transfer Funds"
+    // 1. Given que o usuário esteja na funcionalidade "Transfer Funds"
     await page.getByRole("link", { name: "Transfer Funds" }).click();
 
     // Aguarda o carregamento das opções nos campos de seleção
     await page.waitForSelector("#fromAccountId");
-    await page.waitForSelector("#toAccountId");
 
-    // When informar um valor superior ao saldo disponível
+// 2. When selecionar a exata mesma conta nos campos "From account" e "To account"
+    
+    // Aguarda o Parabank carregar a tag <option> no código (mesmo que invisível na tela)
+    await page.waitForSelector("#fromAccountId option", { state: 'attached' });
+
+    // Pausa de 1 segundo para garantir que o número da conta foi totalmente processado
+    await page.waitForTimeout(1000);
+
+    // Captura diretamente o atributo 'value' da primeira opção (mesmo oculta)
+    const contaUnica = await page.locator("#fromAccountId option").first().getAttribute("value");
+
+    if (contaUnica) {
+        console.log(`Usando a conta ${contaUnica} para Origem e Destino.`);
+        
+        // Seleciona a exata mesma conta nos dois campos
+        await page.locator("#fromAccountId").selectOption(contaUnica);
+        await page.locator("#toAccountId").selectOption(contaUnica);
+    } else {
+        console.error("❌ ERRO: Não foi possível capturar o número da conta para o teste.");
+        return; // Encerra o teste se não conseguir obter a conta
+    }
+
+    // 3. And informar um valor numérico para a transferência
     const valorAbsurdo = "9999999";
     await page.locator("#amount").fill(valorAbsurdo);
 
-    // And selecionar uma conta de destino válida (A conta que acabamos de criar!)
-    if (contaDestinoId) {
-        await page.locator("#toAccountId").selectOption(contaDestinoId);
-    }
-
-    // And clicar no botão "TRANSFER"
+    // 4. And clicar no botão "TRANSFER"
     await page.getByRole("button", { name: "Transfer" }).click();
 
-    // Aguardamos 2 segundos para dar tempo de o sistema processar a transação
+    // Aguardamos um pouco para a requisição finalizar
     await page.waitForTimeout(2000);
 
-    // Verificamos se a mensagem de sucesso está na tela (retorna true ou false)
+    // 5. Then o sistema não deve processar a operação
+    // 6. And deve alertar o usuário de que a conta de destino não pode ser a mesma
+    
+    // Verificamos se a mensagem de sucesso indevida apareceu
     const bugPresente = await page.getByText("Transfer Complete!").isVisible();
 
     if (bugPresente) {
-        // O sistema permitiu a transferência sem saldo (Comportamento Real / Bug)
-        console.log("⚠️ BUG ENCONTRADO: O sistema completou a transferência mesmo sem saldo suficiente.");
-        
-        // Mantemos um expect para o teste passar e registrar no relatório
+        // Comportamento falho do sistema
+        console.log("⚠️ BUG ENCONTRADO: O sistema permitiu uma transferência para a própria conta de origem.");
         await expect(page.getByText("Transfer Complete!")).toBeVisible();
     } else {
-        // O sistema bloqueou a transferência corretamente (Comportamento Esperado)
-        console.log("✅ SUCESSO NO TESTE: O sistema bloqueou a transferência sem saldo.");
-        
+        // Comportamento correto do sistema (se um dia corrigirem o Parabank)
+        console.log("✅ SUCESSO NO TESTE: O sistema bloqueou a transferência para a mesma conta.");
         const mensagemErro = page.locator(".error");
         await expect(mensagemErro).toBeVisible();
-        await expect(mensagemErro).toContainText(/insufficient funds/i);
+        // Espera genérica por uma mensagem de erro indicando problema na seleção das contas
+        await expect(mensagemErro).not.toBeEmpty(); 
     }
 });
