@@ -50,7 +50,7 @@ test.beforeEach("Realizar login", async ({ page }) => {
 });
 
 test("CT21 - Tentativa de busca com data em formato inválido", async ({ page }) => {
-    console.log(`Executando CT20 para o usuário: ${nomeUsuario}`);
+    console.log(`Executando CT21 para o usuário: ${nomeUsuario}`);
   console.log(`Usuário: ${usuario}`);
   console.log(`senha: ${senha}`);
 
