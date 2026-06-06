@@ -103,8 +103,7 @@ test("CT13 - Tentativa de transferência para a mesma conta", async ({ page }) =
 
     if (bugPresente) {
         // Comportamento falho do sistema
-        console.log("⚠️ BUG ENCONTRADO: O sistema permitiu uma transferência para a própria conta de origem.");
-        await expect(page.getByText("Transfer Complete!")).toBeVisible();
+        throw new Error("⚠️ BUG ENCONTRADO: O sistema permitiu uma transferência para a própria conta de origem.");
     } else {
         // Comportamento correto do sistema (se um dia corrigirem o Parabank)
         console.log("✅ SUCESSO NO TESTE: O sistema bloqueou a transferência para a mesma conta.");

@@ -64,11 +64,7 @@ test("CT05 - Tentativa de acesso indevido a contas de terceiros via URL (IDOR)",
     const paginaCarregouIndevidamente = await page.locator("h1.title").filter({ hasText: "Account Details" }).isVisible();
 
     if (paginaCarregouIndevidamente) {
-        // Valide que a página carregou a seção Account Details indevidamente
-        await expect(page.locator("h1.title").filter({ hasText: "Account Details" })).toBeVisible();
-
-        // Imprima um log destacando a falha de segurança (IDOR)
-        console.log("⚠️ BUG ENCONTRADO: Vulnerabilidade de IDOR. O sistema permitiu acesso à conta de terceiros pela URL.");
+        throw new Error("⚠️ BUG ENCONTRADO: Vulnerabilidade de IDOR. O sistema permitiu acesso à conta de terceiros pela URL.");
     } else {
         // O sistema bloqueou corretamente o acesso à conta de terceiros
         console.log("✅ SUCESSO NO TESTE: O sistema bloqueou o acesso indevido à conta via URL.");

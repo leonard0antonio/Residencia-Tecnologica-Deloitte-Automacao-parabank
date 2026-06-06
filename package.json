@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/leonard0antonio/Teste#readme",
   "devDependencies": {
-    "@faker-js/faker": "^10.4.0",
+    "@faker-js/faker": "^8.3.0",
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
     "commit-and-tag-version": "^12.7.3",

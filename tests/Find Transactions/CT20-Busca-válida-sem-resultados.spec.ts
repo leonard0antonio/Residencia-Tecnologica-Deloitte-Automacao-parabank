@@ -96,16 +96,10 @@ test("CT20 - Busca válida sem resultados", async ({ page }) => {
     const bugTabelaQuebrada = await page.getByText("NaN-NaN-NaN").isVisible();
 
     if (erroInterno || erroGenerico || bugTabelaQuebrada) {
-        console.log("⚠️ BUG ENCONTRADO: O sistema não soube lidar com a busca vazia.");
-        
         if (bugTabelaQuebrada) {
-            console.log("-> O frontend quebrou exibindo linhas com NaN-NaN-NaN e undefined.");
-            // Validamos a presença do bug visual para o teste documentar a falha e passar
-            await expect(page.getByText("NaN-NaN-NaN")).toBeVisible();
+            throw new Error("⚠️ BUG ENCONTRADO: O sistema não soube lidar com a busca vazia.\n-> O frontend quebrou exibindo linhas com NaN-NaN-NaN e undefined.");
         } else {
-            // Mantemos o expect para o bug genérico caso ele ocorra futuramente
-            const mensagemExibida = page.locator("p.error");
-            await expect(mensagemExibida).toBeVisible();
+            throw new Error("⚠️ BUG ENCONTRADO: O sistema não soube lidar com a busca vazia.\n-> Ocorreu um erro genérico (p.error)");
         }
         
     } else {

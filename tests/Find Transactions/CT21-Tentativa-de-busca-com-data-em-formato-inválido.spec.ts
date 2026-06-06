@@ -84,10 +84,7 @@ test("CT21 - Tentativa de busca com data em formato inválido", async ({ page })
     const erroInterno = await page.getByText(/internal error/i).isVisible();
 
     if (erroInterno) {
-        console.log("⚠️ BUG ENCONTRADO (GRAVE): O sistema quebrou (Erro 500) ao receber letras no campo de data em vez de validar a entrada.");
-        
-        // Mantemos o expect no erro para o teste passar, mas documentar a falha no relatório
-        await expect(page.getByText(/internal error/i)).toBeVisible();
+        throw new Error("⚠️ BUG ENCONTRADO (GRAVE): O sistema quebrou (Erro 500) ao receber letras no campo de data em vez de validar a entrada.");
         
     } else {
         console.log("✅ SUCESSO NO TESTE: O sistema não quebrou e validou corretamente a entrada inválida.");

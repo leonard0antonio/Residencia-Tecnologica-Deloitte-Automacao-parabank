@@ -87,10 +87,7 @@ test("CT12 - Tentativa de transferência com valor negativo ou inválido", async
 
     if (transferenciaCompletada) {
         // O sistema permitiu a transferência com valor negativo (Comportamento Inesperado / Bug)
-        console.log("⚠️ BUG ENCONTRADO: O sistema completou a transferência mesmo com um valor negativo.");
-
-        // Mantemos um expect para o teste passar e o bug fique registrado no relatório
-        await expect(page.getByText("Transfer Complete!")).toBeVisible();
+        throw new Error("⚠️ BUG ENCONTRADO: O sistema completou a transferência mesmo com um valor negativo.");
     } else {
         // Then o sistema não deve realizar a transferência
         // And deve exibir uma mensagem de erro indicando que o formato do valor é inválido

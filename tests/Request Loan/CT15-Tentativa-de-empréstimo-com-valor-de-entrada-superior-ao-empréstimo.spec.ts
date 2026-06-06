@@ -88,13 +88,9 @@ test("CT15 - Tentativa de empréstimo com valor de entrada superior ao emprésti
     const bugPresente = await page.getByText("Loan Request Processed").isVisible();
 
     if (bugPresente) {
-        console.log("⚠️ BUG ENCONTRADO: O sistema aceitou e processou o formulário mesmo com a entrada sendo 5x maior que o empréstimo.");
-        
         // Verifica qual foi o status final que o sistema deu para essa transação bizarra
         const statusEmprestimo = await page.locator("#loanStatus").textContent();
-        console.log(`Status incorreto retornado pelo sistema: ${statusEmprestimo}`);
-        
-        await expect(page.getByText("Loan Request Processed")).toBeVisible();
+        throw new Error(`⚠️ BUG ENCONTRADO: O sistema aceitou e processou o formulário mesmo com a entrada sendo 5x maior que o empréstimo.\nStatus incorreto retornado pelo sistema: ${statusEmprestimo}`);
     } else {
         console.log("✅ SUCESSO NO TESTE: O sistema bloqueou a solicitação na mesma tela.");
         

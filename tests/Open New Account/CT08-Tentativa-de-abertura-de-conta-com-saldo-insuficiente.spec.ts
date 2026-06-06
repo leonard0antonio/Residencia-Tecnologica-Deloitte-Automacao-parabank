@@ -92,9 +92,7 @@ test("CT08 - Tentativa de abertura de conta com saldo insuficiente", async ({ pa
     const contaFoiAberta = await page.getByRole('heading', { name: 'Account Opened!' }).isVisible();
 
     if (contaFoiAberta) {
-        console.log("⚠️ BUG ENCONTRADO: O sistema permitiu a abertura de conta mesmo com a conta de origem zerada ($0.00).");
-        // Garantimos que o teste passe com o aviso, documentando a falha de validação do sistema
-        await expect(page.getByRole('heading', { name: 'Account Opened!' })).toBeVisible();
+        throw new Error("⚠️ BUG ENCONTRADO: O sistema permitiu a abertura de conta mesmo com a conta de origem zerada ($0.00).");
     } else {
         console.log("✅ SUCESSO NO TESTE: O sistema bloqueou a criação da conta devido ao saldo insuficiente.");
         // Se o sistema exibir uma mensagem de erro ou não exibir o sucesso, o teste valida o comportamento correto

@@ -86,13 +86,10 @@ test("CT22 - Tentativa de busca com intervalo de datas ilógico", async ({ page 
     const erroExibido = await page.locator("#dateRangeError").isVisible();
 
     if (erroInterno) {
-        console.log("⚠️ BUG ENCONTRADO (GRAVE): O sistema estourou Erro 500 ao invés de validar as datas.");
-        await expect(page.getByText(/internal error/i)).toBeVisible();
+        throw new Error("⚠️ BUG ENCONTRADO (GRAVE): O sistema estourou Erro 500 ao invés de validar as datas.");
         
     } else if (!erroExibido) {
-        console.log("⚠️ BUG ENCONTRADO: O sistema ignorou o intervalo ilógico, não validou o erro e tentou realizar a busca.");
-        // Se ele não validou, a tabela de resultados acaba aparecendo vazia
-        await expect(page.locator("#transactionTable")).toBeVisible();
+        throw new Error("⚠️ BUG ENCONTRADO: O sistema ignorou o intervalo ilógico, não validou o erro e tentou realizar a busca.");
         
     } else {
         console.log("✅ SUCESSO NO TESTE: O sistema validou a regra de negócio e barrou as datas ilógicas.");

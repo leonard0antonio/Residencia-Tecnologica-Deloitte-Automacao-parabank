@@ -84,9 +84,7 @@ test("CT17 - Tentativa de empréstimo com valores negativos ou inválidos", asyn
     const bugProcessamento = await page.getByText("Loan Request Processed").isVisible();
 
     if (bugProcessamento) {
-        console.log("⚠️ BUG ENCONTRADO (GRAVE): O sistema processou um pedido de empréstimo com valores NEGATIVOS.");
-        // O teste passa mantendo o expect na tela de sucesso para registrar a falha sistêmica
-        await expect(page.getByText("Loan Request Processed")).toBeVisible();
+        throw new Error("⚠️ BUG ENCONTRADO (GRAVE): O sistema processou um pedido de empréstimo com valores NEGATIVOS.");
     } else {
         console.log("✅ SUCESSO NO TESTE: O sistema bloqueou o formulário e não processou valores negativos.");
         

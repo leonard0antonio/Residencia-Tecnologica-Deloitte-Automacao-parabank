@@ -107,10 +107,7 @@ test("CT11 – Tentativa de Transferência com saldo insuficiente", async ({ pag
 
     if (bugPresente) {
         // O sistema permitiu a transferência sem saldo (Comportamento Real / Bug)
-        console.log("⚠️ BUG ENCONTRADO: O sistema completou a transferência mesmo sem saldo suficiente.");
-        
-        // Mantemos um expect para o teste passar e registrar no relatório
-        await expect(page.getByText("Transfer Complete!")).toBeVisible();
+        throw new Error("⚠️ BUG ENCONTRADO: O sistema completou a transferência mesmo sem saldo suficiente.");
     } else {
         // O sistema bloqueou a transferência corretamente (Comportamento Esperado)
         console.log("✅ SUCESSO NO TESTE: O sistema bloqueou a transferência sem saldo.");
